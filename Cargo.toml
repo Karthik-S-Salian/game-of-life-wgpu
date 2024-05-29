@@ -9,5 +9,6 @@ edition = "2021"
 anyhow = "1.0.86"
 bytemuck = {version ="1.16.0", features = ["derive"]}
 pollster = {version ="0.3.0", features = ["macro"] }
+rand = "0.8.5"
 wgpu = "0.20.0"
 winit = "0.29.10"

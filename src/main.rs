@@ -1,10 +1,9 @@
 use {
-    anyhow::{Context, Result},
-    winit::{
+    anyhow::{Context, Result}, std::{thread, time::Duration}, winit::{
         event::{Event, WindowEvent},
         event_loop::{ControlFlow, EventLoop},
         window::{Window, WindowBuilder},
-    },
+    }
 };
 
 mod render;
@@ -33,7 +32,7 @@ async fn main() -> Result<()> {
         .build(&event_loop)?;
 
     let (device, queue, surface) = connect_to_gpu(&window).await?;
-    let renderer = render::Renderer::new(device, queue,&config);
+    let mut renderer = render::Renderer::new(device, queue,&config);
 
     event_loop.run(|event, control_handle| {
         control_handle.set_control_flow(ControlFlow::Poll);
@@ -50,6 +49,7 @@ async fn main() -> Result<()> {
                     renderer.render_frame(&render_target);
                     frame.present();
 
+                    thread::sleep(Duration::from_millis(100));
                     window.request_redraw();
                 }
                 _ => (),
