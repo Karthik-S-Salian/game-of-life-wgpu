@@ -8,9 +8,6 @@ use {
 
 mod render;
 
-const WIDTH: u32 = 800;
-const HEIGHT: u32 = 800;
-
 pub struct Config {
     width: u32,
     height: u32,
@@ -23,12 +20,12 @@ async fn main() -> Result<()> {
     let config = Config{width:800,height:800,grid_size:32};
 
     let event_loop = EventLoop::new()?;
-    let window_size = winit::dpi::PhysicalSize::new(WIDTH, HEIGHT);
+    let window_size = winit::dpi::PhysicalSize::new(config.width, config.height);
 
     let window = WindowBuilder::new()
         .with_inner_size(window_size)
         .with_resizable(false)
-        .with_title("Fluid Simulator".to_string())
+        .with_title("Convays game of life".to_string())
         .build(&event_loop)?;
 
     let (device, queue, surface) = connect_to_gpu(&window).await?;
@@ -60,8 +57,6 @@ async fn main() -> Result<()> {
 
     Ok(())
 }
-
-
 
 
 async fn connect_to_gpu(window: &Window) -> Result<(wgpu::Device, wgpu::Queue, wgpu::Surface)> {
