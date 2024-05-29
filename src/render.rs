@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use bytemuck::{Pod, Zeroable};
 use wgpu::PipelineCompilationOptions;
 
@@ -347,6 +349,9 @@ fn create_compute_pipeline(
     layout: &wgpu::BindGroupLayout,
     shader_module: &wgpu::ShaderModule,
 ) -> wgpu::ComputePipeline {
+
+    let mut constants:HashMap<String, f64> = HashMap::new();
+    constants.insert("WORKGROUP_SIZE".to_string(),8.);
     device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: Some("add source"),
         layout: Some(
