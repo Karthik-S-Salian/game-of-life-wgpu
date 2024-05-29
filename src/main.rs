@@ -25,7 +25,7 @@ async fn main() -> Result<()> {
     let window = WindowBuilder::new()
         .with_inner_size(window_size)
         .with_resizable(false)
-        .with_title("Fluid Simulator".to_string())
+        .with_title("Convays game of life".to_string())
         .build(&event_loop)?;
 
     let (device, queue, surface) = connect_to_gpu(&window).await?;
@@ -57,8 +57,6 @@ async fn main() -> Result<()> {
 
     Ok(())
 }
-
-
 
 
 async fn connect_to_gpu(window: &Window) -> Result<(wgpu::Device, wgpu::Queue, wgpu::Surface)> {

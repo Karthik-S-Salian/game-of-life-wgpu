@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use bytemuck::{Pod, Zeroable};
 use wgpu::PipelineCompilationOptions;
 
@@ -11,8 +9,6 @@ pub struct Renderer {
     device: wgpu::Device,
     queue: wgpu::Queue,
     grid_size: u32,
-    // uniforms: Uniforms,
-    // uniform_buffer: wgpu::Buffer,
     render_pipeline: wgpu::RenderPipeline,
     compute_pipeline: wgpu::ComputePipeline,
     display_bindgroups: [wgpu::BindGroup; 2],
@@ -120,7 +116,12 @@ impl Renderer {
                 view: target,
                 resolve_target: None,
                 ops: wgpu::Operations {
-                    load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
+                    load: wgpu::LoadOp::Clear(wgpu::Color {
+                        r: 0.0,
+                        g: 0.0,
+                        b: 0.4,
+                        a: 1.0,
+                    }),
                     store: wgpu::StoreOp::Store,
                 },
             })],
@@ -349,9 +350,6 @@ fn create_compute_pipeline(
     layout: &wgpu::BindGroupLayout,
     shader_module: &wgpu::ShaderModule,
 ) -> wgpu::ComputePipeline {
-
-    let mut constants:HashMap<String, f64> = HashMap::new();
-    constants.insert("WORKGROUP_SIZE".to_string(),8.);
     device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: Some("add source"),
         layout: Some(
